@@ -1,0 +1,52 @@
+h1 {
+  font-size: 50px;
+  font-weight: 600;
+}
+h2 {
+  font-size: 40px;
+  font-weight: 400;
+}
+h3 {
+  font-size: 20px;
+}
+input {
+  color: royalblue;
+  border: 1px solid darkblue;
+  padding: 2px 4px;
+  margin-bottom: 75px;
+}
+::placeholder {
+  color: royalblue;
+  background: #fff;
+}
+.current-weather {
+  background: royalblue;
+  color: #fff;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 0.25rem;
+}
+.container {
+  width: 900px;
+  background-color: lightblue;
+  border: 2px solid royalblue;
+  margin: 50px auto;
+  padding: 60px;
+}
+.forecast-item {
+  position: relative;
+  text-align: center;
+}
+.forecast-item .card {
+  background: royalblue;
+  color: #fff;
+}
+.images-forecast {
+  width: 30%;
+}
+a {
+  color: #fff;
+}
+#showPosition {
+  background-color: royalblue;
+}
