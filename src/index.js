@@ -1,80 +1,118 @@
-//feature #1
-let now = new Date();
+function formatDate(timestamp) {
+  let date = new Date(timestamp);
+  let hours = date.getHours();
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
+  let minutes = date.getMinutes();
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let day = days[date.getDay()];
+  return `${day} ${hours}:${minutes}`;
+}
 
-let currentTime = document.querySelector("#currentTime");
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-let date = now.getDate();
-let hour = now.getHours();
-let min = now.getMinutes();
+  return days[day];
+}
 
-let days = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-let day = days[now.getDay()];
+function displayForecast(response) {
+  let forecast = response.data.daily;
 
-currentTime.innerHTML = `${day} ${date}, ${hour}:${min}`;
+  let forecastElement = document.querySelector("#forecast");
 
-//feature #2
-function search(event) {
+  let forecastHTML = `<div class="row">`;
+  forecast.forEach(function (forecastDay, index) {
+    if (index < 6) {
+      forecastHTML =
+        forecastHTML +
+        `
+     <div class="col-12 mb-3">
+       <div class="weather-forecast-date">${formatDay(forecastDay.dt)}</div>
+       <img
+         src="http://openweathermap.org/img/wn/${
+           forecastDay.weather[0].icon
+         }@2x.png"
+         alt=""
+         width="42"
+       />
+       <div class="weather-forecast-temperature">
+         <span class="weather-forecast-temperature-max">${Math.round(
+           forecastDay.temp.max
+         )}°</span>
+         <span class="weather-forecast-temperature-min">${Math.round(
+           forecastDay.temp.min
+         )}°</span>
+       </div>
+     </div>
+   `;
+    }
+  });
+
+  forecastHTML = forecastHTML + ` </div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
+function getForecast(coordinates) {
+  console.log(coordinates);
+  let apiKey = "8c78e9e7e9928cd1a2a6f923072c3dec";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude={part}&appid=${apiKey}&units=metric`;
+  console.log(apiUrl);
+  axios.get(apiUrl).then(displayForecast);
+}
+
+function displayTemperature(response) {
+  let temperatureElement = document.querySelector("#temperature");
+  let cityElement = document.querySelector("#city");
+  let descriptionElement = document.querySelector("#description");
+  let humidityElement = document.querySelector("#humidity");
+  let windElement = document.querySelector("#wind");
+  let dateElement = document.querySelector("#date");
+  let iconElement = document.querySelector("#icon");
+
+  celsiusTemperature = response.data.main.temp;
+
+  temperatureElement.innerHTML = Math.round(response.data.main.temp);
+  cityElement.innerHTML = response.data.name;
+  descriptionElement.innerHTML = response.data.weather[0].description;
+  humidityElement.innerHTML = response.data.main.humidity;
+  windElement.innerHTML = Math.round(response.data.wind.speed);
+  dateElement.innerHTML = formatDate(response.data.dt * 1000);
+  iconElement.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+  );
+  iconElement.setAttribute("alt", response.data.weather[0].description);
+
+  getForecast(response.data.coord);
+}
+
+function search(city) {
+  let apiKey = "8c78e9e7e9928cd1a2a6f923072c3dec";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayTemperature);
+}
+
+function handleSubmit(event) {
   event.preventDefault();
-  let searchInput = document.querySelector("#search-enter-city");
-  let h1 = document.querySelector("h1");
-  h1.innerHTML = searchInput.value;
-}
-let form = document.querySelector("#entercity");
-form.addEventListener("submit", search);
-
-function convertToFahrenheit(event) {
-  event.preventDefault();
-  let changeTemperature = document.querySelector("#temperature");
-  changeTemperature.innerHTML = `64°F`;
-}
-let temperatureC = document.querySelector("#fahrenheit");
-temperatureC.addEventListener("click", convertToFahrenheit);
-
-function convertToCelsius(event) {
-  event.preventDefault();
-  let changeTemperature = document.querySelector("#temperature");
-  changeTemperature.innerHTML = `19°C`;
-}
-let temperature = document.querySelector("#celsius");
-temperature.addEventListener("click", convertToCelsius);
-
-//challenge search engine
-
-function showTemperature(response) {
-  document.querySelector("#heading").innerHTML = response.data.name;
-  document.querySelector("#temperature").innerHTML =
-    Math.round(response.data.main.temp) + "°C";
-}
-function searchCity(city) {
-  let apiKey = "16e9550d3526f189d453e6d36a97331c";
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric`;
-  axios.get(`${apiUrl}&appid=${apiKey}`).then(showTemperature);
-}
-function showCity(event) {
-  event.preventDefault();
-  let city = document.querySelector("#search-enter-city").value;
-  searchCity(city);
+  let cityInputElement = document.querySelector("#city-input");
+  search(cityInputElement.value);
 }
 
-function showPosition(position) {
-  let apiKey = "16e9550d3526f189d453e6d36a97331c";
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric`;
-  axios.get(`${apiUrl}&appid=${apiKey}`).then(showTemperature);
-}
+let form = document.querySelector("#search-form");
+form.addEventListener("submit", handleSubmit);
 
-function getCurrentLocation(event) {
-  navigator.geolocation.getCurrentPosition(showPosition);
-}
-
-let enterCity = document.querySelector("#entercity");
-enterCity.addEventListener("submit", showCity);
-let currentButton = document.querySelector("#showPosition");
-currentButton.addEventListener("click", getCurrentLocation);
+search("Vedum");
