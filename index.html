@@ -15,20 +15,23 @@
     <title>Weather App</title>
   </head>
   <body>
-    <div class="container">
-      <div class="weather-app-wrapper">
-       <form action="" class="form-search-city" id="search-form">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Enter a city"
-          id="input-city"
-        />
-        <button id="search-button">Search</button>
-        <button id="current-button">Current</button>
-          </form> 
-
-          <div class="weather-app col-6">
+     <div class="container">
+      <div class="card">
+        <div class="card-body">
+          <form class="search-form" id="search-form">
+            <input
+              type="search"
+              placeholder="Enter a city..."
+              autofocus="on"
+              autocomplete="off"
+              id="city-input"
+              class="enter-city"
+            />
+            <input type="submit" value="Search" class="btn btn-primary" />
+            <button class="btn btn-success" id="currentLocation">
+              Current
+            </button>
+          </form>
           <div class="overview">
             <h1 id="city"></h1>
             <ul>
@@ -36,7 +39,7 @@
               <li id="description"></li>
             </ul>
             <div class="row">
-              <div class="col-7">
+              <div class="col-6">
                 <div class="clearfix weather-temperature">
                   <img src="" alt="Clear" id="icon" class="float-left" />
                   <div class="float-left">
@@ -45,9 +48,8 @@
                   </div>
                 </div>
               </div>
-          
-              <div class="col-6">
-                <br />
+              <br />
+              <div class="col-9">
                 <ul>
                   <li>Humidity: <span id="humidity"></span>%</li>
                   <li>Wind: <span id="wind"></span>km/h</li>

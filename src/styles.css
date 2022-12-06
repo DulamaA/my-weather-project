@@ -1,13 +1,14 @@
 body {
-  font-family: arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 h1 {
   color: white;
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 100;
   line-height: 28px;
   margin-bottom: 0;
+  margin-top: 50px;
 }
 
 ul {
@@ -20,25 +21,40 @@ li {
   margin: 0;
   padding: 0;
   color: white;
-  font-size: 16px;
-  font-weight: 100;
-  line-height: 19px;
+  font-size: 14px;
+  font-weight: 75;
+  line-height: 17px;
+  margin-top: 20px;
 }
 
 li::first-letter {
   text-transform: capitalize;
 }
-.weather-app-wrapper {
-  max-width: 600px;
-  margin: 30px auto;
+
+.card {
+  display: block;
+  margin: 0;
+  width: 600px;
+  background-color: royalblue;
+  padding: 10px 0;
+  margin-top: 40px;
+}
+
+.enter-city {
+  position: static;
+  width: 300px;
+  margin-left: 1px;
+}
+
+.btn-primary {
+  position: static;
   background-color: lightblue;
 }
 
-.weather-app {
-  padding: 20px;
-  border: 1px solid #dadde1;
-  border-radius: 5px;
-  background-color: royalblue;
+.btn-success {
+  position: relative;
+  left: 20px;
+  background-color: lightblue;
 }
 
 .overview {
@@ -62,7 +78,6 @@ li::first-letter {
   position: relative;
   font-size: 16px;
   top: -34px;
-  color: white;
 }
 
 .weather-temperature .active {
@@ -74,15 +89,11 @@ li::first-letter {
   text-decoration: none;
 }
 
-button {
-  background-color: royalblue;
-  color: white;
-}
-
 .weather-forecast {
-  margin-top: 20px;
+  margin-top: -200px;
   text-align: center;
   color: white;
+  margin-left: 375px;
 }
 .weather-forecast-date {
   font-size: 16px;
@@ -98,5 +109,9 @@ button {
 }
 
 small {
+  color: white;
+}
+
+.units {
   color: white;
 }
