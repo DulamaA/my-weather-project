@@ -112,6 +112,22 @@ function handleSubmit(event) {
   search(cityInputElement.value);
 }
 
+function searchCurrentLocation(position) {
+  let latitude = position.coords.latitude;
+  let longitude = position.coords.longitude;
+  let apiKey = "8c78e9e7e9928cd1a2a6f923072c3dec";
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?lon=${longitude}&lat=${latitude}&key=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(getSearchWeather);
+}
+
+function getCurrentLocationWeather(event) {
+  event.preventDefault();
+  navigator.geolocation.getCurrentPosition(searchCurrentLocation);
+}
+
+let currentLocation = document.querySelector("#currentLocation");
+currentLocation.addEventListener("click", getCurrentLocationWeather);
+
 let form = document.querySelector("#search-form");
 form.addEventListener("submit", handleSubmit);
 
