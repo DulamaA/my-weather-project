@@ -116,8 +116,8 @@ function searchCurrentLocation(position) {
   let latitude = position.coords.latitude;
   let longitude = position.coords.longitude;
   let apiKey = "8c78e9e7e9928cd1a2a6f923072c3dec";
-  let apiUrl = `https://api.shecodes.io/weather/v1/current?lon=${longitude}&lat=${latitude}&key=${apiKey}&units=metric`;
-  axios.get(apiUrl).then(getDisplayTemperature);
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lon=${longitude}&lat=${latitude}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayTemperature);
 }
 
 function getCurrentLocationWeather(event) {
